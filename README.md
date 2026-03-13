@@ -2,18 +2,15 @@
 
 Lightweight outbound messaging system for MediSync Labs investor outreach.
 
-## Workspace
+## Workspace (password protected)
 
 Open the **workspace** to view investors, LinkedIn DMs, templates, and generated output in one place.
 
-**Option 1 — Double-click:** Run `workspace/serve.bat` (Windows)
+**Local:** Run `workspace/serve.bat` or `python -m http.server 8080`, then open http://localhost:8080/
 
-**Option 2 — Terminal:**
-```bash
-cd outbound-engine
-python -m http.server 8080
-```
-Then open **http://localhost:8080/workspace/** in your browser.
+**Deploy:** See [DEPLOY.md](DEPLOY.md) to push to GitHub and deploy on Vercel.
+
+**Password:** pillow123 (for you and Brock)
 
 ## Generate messages
 
