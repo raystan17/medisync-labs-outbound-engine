@@ -7,6 +7,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          screens: { sm: '640px', md: '768px', lg: '1024px', xl: '1280px' }
+        }
+      }
+    }
+  </script>
   <style>
     :root {
       --bg: #0f172a;
@@ -49,14 +59,31 @@
 
     .topbar {
       height: 56px;
+      min-height: 56px;
       background: linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg-card) 100%);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 1.5rem;
+      padding: 0 1rem;
       flex-shrink: 0;
     }
+    @media (min-width: 640px) { .topbar { padding: 0 1.5rem; } }
+    .hamburger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      margin-right: 0.5rem;
+    }
+    .hamburger:hover { background: var(--accent-soft); color: var(--accent); }
+    @media (min-width: 1024px) { .hamburger { display: none !important; } }
 
     .topbar-brand {
       display: flex;
@@ -105,6 +132,13 @@
       display: flex;
       flex: 1;
       overflow: hidden;
+      min-width: 0;
+    }
+    .sidebar {
+      flex-shrink: 0;
+    }
+    @media (max-width: 1023px) {
+      .sidebar { flex-shrink: 0; }
     }
 
     .sidebar {
@@ -114,6 +148,31 @@
       padding: 1rem 0;
       flex-shrink: 0;
       overflow-y: auto;
+      transition: transform 0.2s ease;
+    }
+    @media (max-width: 1023px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1000;
+        transform: translateX(-100%);
+        box-shadow: var(--shadow-lg);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+      }
+      .sidebar-overlay.open {
+        display: block;
+      }
     }
 
     .logo {
@@ -132,7 +191,8 @@
       display: flex;
       align-items: center;
       gap: 0.6rem;
-      padding: 0.6rem 1.25rem;
+      padding: 0.75rem 1.25rem;
+      min-height: 44px;
       color: var(--text-muted);
       text-decoration: none;
       font-size: 0.9rem;
@@ -157,8 +217,14 @@
     .main {
       flex: 1;
       overflow-y: auto;
-      padding: 1.5rem 2rem 3rem;
+      overflow-x: hidden;
+      padding: 1rem;
+      min-width: 0;
+      -webkit-overflow-scrolling: touch;
     }
+    @media (min-width: 640px) { .main { padding: 1.25rem 1.5rem; } }
+    @media (min-width: 768px) { .main { padding: 1.5rem 2rem; } }
+    @media (min-width: 1024px) { .main { padding: 1.5rem 2rem 3rem; } }
 
     .section {
       display: none;
@@ -179,17 +245,19 @@
     }
 
     .section-header h2 {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 600;
       color: var(--text);
       letter-spacing: -0.02em;
     }
+    @media (min-width: 640px) { .section-header h2 { font-size: 1.5rem; } }
 
     .section-header p {
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       color: var(--text-muted);
       margin-top: 0.35rem;
     }
+    @media (min-width: 640px) { .section-header p { font-size: 0.9rem; } }
 
     .stats {
       display: flex;
@@ -253,8 +321,10 @@
     .btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.4rem;
       padding: 0.5rem 0.9rem;
+      min-height: 44px;
       font-size: 0.8rem;
       font-weight: 500;
       border-radius: 6px;
@@ -263,6 +333,9 @@
       font-family: inherit;
       transition: all 0.15s;
       text-decoration: none;
+    }
+    @media (max-width: 639px) {
+      .btn-mobile-full .btn { width: 100%; }
     }
 
     .btn-primary {
@@ -357,7 +430,33 @@
     .investors-table tr:hover td {
       background: rgba(255,255,255,0.03);
     }
-
+    @media (max-width: 767px) {
+      .investors-table-wrapper { display: none !important; }
+    }
+    .investor-mobile-card {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem;
+      transition: all 0.2s;
+    }
+    .investor-mobile-card:hover {
+      border-color: var(--accent);
+    }
+    @media (max-width: 767px) {
+      .investor-mobile-card { display: block !important; }
+    }
+    .investor-mobile-card a {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      margin-top: 0.5rem;
+      width: 100%;
+      justify-content: center;
+    }
     .investors-table a {
       color: var(--accent);
       text-decoration: none;
@@ -457,13 +556,16 @@
 
     .template-card-header {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      padding: 1.25rem 1.5rem;
+      padding: 1rem 1.25rem;
       background: var(--accent-soft);
       border-bottom: 1px solid var(--border);
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 0.75rem;
+    }
+    @media (min-width: 640px) {
+      .template-card-header { padding: 1.25rem 1.5rem; align-items: center; gap: 1rem; }
     }
 
     .template-card-title {
@@ -611,8 +713,9 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      padding: 2rem;
+      padding: 1.5rem;
     }
+    @media (min-width: 640px) { .password-gate { padding: 2rem; } }
 
     .password-gate.hidden {
       display: none;
@@ -639,7 +742,8 @@
     .password-gate input {
       width: 100%;
       max-width: 260px;
-      padding: 0.75rem 1rem;
+      padding: 0.875rem 1rem;
+      min-height: 44px;
       font-size: 1rem;
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -663,12 +767,14 @@
 
     .pitch-deck-embed {
       width: 100%;
-      height: 70vh;
-      min-height: 500px;
+      height: 50vh;
+      min-height: 300px;
       border: 1px solid var(--border);
       border-radius: var(--radius);
       background: var(--bg-elevated);
     }
+    @media (min-width: 768px) { .pitch-deck-embed { height: 60vh; min-height: 400px; } }
+    @media (min-width: 1024px) { .pitch-deck-embed { height: 70vh; min-height: 500px; } }
 
     .status-badge {
       display: inline-flex;
@@ -689,22 +795,26 @@
     <p>Enter password to continue</p>
     <div class="error" id="password-error"></div>
     <input type="password" id="password-input" placeholder="Password" autocomplete="current-password">
-    <button class="btn btn-primary" id="password-submit">Enter</button>
+    <button class="btn btn-primary min-h-[44px] min-w-[120px]" id="password-submit">Enter</button>
   </div>
 
   <div class="layout" id="main-content" style="display: none;">
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
     <header class="topbar">
+      <button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Open menu">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
       <div class="topbar-brand">
-        <img src="/assets/logo.png" alt="MediSync Labs">
-        <span>Investor CRM <span class="badge">MediSync Labs</span></span>
+        <img src="/assets/logo.png" alt="MediSync Labs" class="h-8">
+        <span class="text-sm sm:text-base">Investor CRM <span class="badge hidden sm:inline">MediSync Labs</span></span>
       </div>
       <div class="topbar-links">
-        <a href="https://www.medisynclabs.ca/" target="_blank" rel="noopener">MediSync Labs</a>
-        <a href="https://www.medisynclabs.ca/demo-login" target="_blank" rel="noopener">Demo</a>
+        <a href="https://www.medisynclabs.ca/" target="_blank" rel="noopener" class="hidden sm:inline">MediSync Labs</a>
+        <a href="https://www.medisynclabs.ca/demo-login" target="_blank" rel="noopener" class="min-h-[44px] min-w-[44px] flex items-center">Demo</a>
       </div>
     </header>
-    <div class="layout-body">
-    <aside class="sidebar">
+    <div class="layout-body flex flex-1 overflow-hidden">
+    <aside class="sidebar lg:relative lg:translate-x-0" id="sidebar">
       <div class="logo">
         <img src="/assets/logo.png" alt="MediSync Labs">
       </div>
@@ -725,8 +835,8 @@
           <p>Investor pipeline for MediSync Labs — Cole & Brock</p>
         </div>
 
-        <div class="stats">
-          <div class="stat-card">
+        <div class="stats flex flex-wrap gap-3 sm:gap-4">
+          <div class="stat-card flex-1 min-w-[100px] sm:min-w-[120px]">
             <div class="value">10</div>
             <div class="label">Firms</div>
           </div>
@@ -755,12 +865,12 @@
           <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
             Your investor pipeline. Reach out, track contacts, and close the round.
           </p>
-          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <a href="#pitchdeck" class="btn btn-ghost" onclick="showSection('pitchdeck')">Pitch deck</a>
-            <a href="#investors" class="btn btn-ghost" onclick="showSection('investors')">Firms</a>
-            <a href="#contacts" class="btn btn-ghost" onclick="showSection('contacts')">Key contacts</a>
-            <a href="#linkedin" class="btn btn-ghost" onclick="showSection('linkedin')">LinkedIn DMs</a>
-            <a href="#templates" class="btn btn-ghost" onclick="showSection('templates')">Email templates</a>
+          <div class="flex flex-col sm:flex-row gap-3 sm:gap-2 flex-wrap">
+            <a href="#pitchdeck" class="btn btn-ghost w-full sm:w-auto" onclick="showSection('pitchdeck')">Pitch deck</a>
+            <a href="#investors" class="btn btn-ghost w-full sm:w-auto" onclick="showSection('investors')">Firms</a>
+            <a href="#contacts" class="btn btn-ghost w-full sm:w-auto" onclick="showSection('contacts')">Key contacts</a>
+            <a href="#linkedin" class="btn btn-ghost w-full sm:w-auto" onclick="showSection('linkedin')">LinkedIn DMs</a>
+            <a href="#templates" class="btn btn-ghost w-full sm:w-auto" onclick="showSection('templates')">Email templates</a>
           </div>
         </div>
       </section>
@@ -770,15 +880,15 @@
           <h2>Pitch Deck</h2>
           <p>LAUNCH Co. pitch — finished product. Pitched successfully, waiting to hear back.</p>
         </div>
-        <div class="card" style="margin-bottom: 1rem;">
-          <div class="card-header">
+        <div class="card mb-4">
+          <div class="card-header flex-col sm:flex-row items-start sm:items-center gap-2">
             <span class="card-title">MediSync Labs | LAUNCH Co. Pitch Deck</span>
             <span class="status-badge">Pitched — Awaiting response</span>
           </div>
           <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
             Turn your blood test into clear answers. AI-powered health insights for everyday people. $100k raise for OpenClaw AI integration + growth.
           </p>
-          <a href="https://medisync-labs-pitch-launchco.vercel.app/" target="_blank" rel="noopener" class="btn btn-primary">Open pitch deck →</a>
+          <a href="https://medisync-labs-pitch-launchco.vercel.app/" target="_blank" rel="noopener" class="btn btn-primary w-full sm:w-auto min-h-[44px]">Open pitch deck →</a>
         </div>
         <div class="card">
           <div class="card-header">
@@ -793,7 +903,7 @@
           <h2>Firms</h2>
           <p>Target firms — company pages and LinkedIn</p>
         </div>
-        <div class="card">
+        <div class="card investors-table-wrapper overflow-x-auto">
           <table class="investors-table" id="investors-table">
             <thead>
               <tr>
@@ -804,6 +914,7 @@
             <tbody></tbody>
           </table>
         </div>
+        <div id="investors-mobile-cards"></div>
       </section>
 
       <section id="contacts" class="section">
@@ -839,9 +950,9 @@
             <div class="template-vars" id="email-vars"></div>
           </div>
           <div class="template-body">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
-              <button class="template-preview-toggle" id="email-preview-toggle">Preview with sample data</button>
-              <button class="btn btn-ghost btn-sm" onclick="copyToClipboard(EMAIL_TEMPLATE, this)">Copy template</button>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+              <button class="template-preview-toggle min-h-[44px] text-left" id="email-preview-toggle">Preview with sample data</button>
+              <button class="btn btn-ghost btn-sm w-full sm:w-auto min-h-[44px]" onclick="copyToClipboard(EMAIL_TEMPLATE, this)">Copy template</button>
             </div>
             <div id="email-template-content"></div>
           </div>
@@ -858,9 +969,9 @@
             <div class="template-vars" id="dm-vars"></div>
           </div>
           <div class="template-body">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
-              <button class="template-preview-toggle" id="dm-preview-toggle">Preview with sample data</button>
-              <button class="btn btn-ghost btn-sm" onclick="copyToClipboard(DM_TEMPLATE, this)">Copy template</button>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+              <button class="template-preview-toggle min-h-[44px] text-left" id="dm-preview-toggle">Preview with sample data</button>
+              <button class="btn btn-ghost btn-sm w-full sm:w-auto min-h-[44px]" onclick="copyToClipboard(DM_TEMPLATE, this)">Copy template</button>
             </div>
             <div id="dm-template-content"></div>
           </div>
@@ -941,11 +1052,20 @@ Founder, MediSync Labs`;
 
     const DM_TEMPLATE = `Hi {{investor_name}} — Brock Stanley here, founder of MediSync Labs. Saw {{firm_name}}'s focus on {{focus_area}}. We're at {{user_count}} users, {{premium_growth}} growth, raising {{raise_amount}}. Quick demo: {{demo_link}} — open to a short call?`;
 
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      sidebar?.classList.toggle('open');
+      overlay?.classList.toggle('open');
+    }
+
     function showSection(id) {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       document.getElementById(id).classList.add('active');
-      document.querySelector(`[data-section="${id}"]`).classList.add('active');
+      const navItem = document.querySelector(`[data-section="${id}"]`);
+      if (navItem) navItem.classList.add('active');
+      if (window.innerWidth < 1024) toggleSidebar();
     }
 
     function copyToClipboard(text, btn) {
@@ -968,6 +1088,15 @@ Founder, MediSync Labs`;
           <td><a href="${i.linkedin}" target="_blank" rel="noopener">Open LinkedIn →</a></td>
         </tr>`
       ).join('');
+      const mobileContainer = document.getElementById('investors-mobile-cards');
+      if (mobileContainer) {
+        mobileContainer.innerHTML = INVESTORS.map(i => `
+          <div class="investor-mobile-card">
+            <div class="font-semibold text-[var(--text)]">${i.firm}</div>
+            <a href="${i.linkedin}" target="_blank" rel="noopener" class="btn btn-primary">Open LinkedIn →</a>
+          </div>
+        `).join('');
+      }
     }
 
     function renderContacts() {
@@ -977,16 +1106,19 @@ Founder, MediSync Labs`;
         const connectBtn = c.linkedin
           ? `<a href="${c.linkedin}" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Connect</a>`
           : '';
+        const connectBtnEl = c.linkedin
+          ? `<a href="${c.linkedin}" target="_blank" rel="noopener" class="btn btn-primary btn-sm w-full sm:w-auto min-h-[44px]">Connect</a>`
+          : '';
         return `
-          <div class="contact-card">
+          <div class="contact-card flex flex-col sm:flex-row">
             <div class="contact-card-avatar">${initial}</div>
-            <div class="contact-card-info">
+            <div class="contact-card-info flex-1 min-w-0">
               <div class="contact-card-name">${c.name}</div>
               <div class="contact-card-firm">${c.firm} · ${c.role}</div>
               <span class="contact-card-focus">${c.focus}</span>
             </div>
-            <div class="contact-card-actions">
-              ${connectBtn}
+            <div class="contact-card-actions w-full sm:w-auto mt-3 sm:mt-0">
+              ${connectBtnEl}
             </div>
           </div>`;
       }).join('');
@@ -997,9 +1129,9 @@ Founder, MediSync Labs`;
       container.innerHTML = LINKEDIN_DMS.map((dm, i) => `
         <div class="dm-card">
           <div class="firm">${dm.firm}</div>
-          <div class="actions">
-            <a href="${dm.linkedin}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Open LinkedIn</a>
-            <button class="btn btn-primary btn-sm" data-dm-index="${i}">Copy DM</button>
+          <div class="actions flex flex-col sm:flex-row gap-2">
+            <a href="${dm.linkedin}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm w-full sm:w-auto">Open LinkedIn</a>
+            <button class="btn btn-primary btn-sm w-full sm:w-auto min-h-[44px]" data-dm-index="${i}">Copy DM</button>
           </div>
           <div class="message">${dm.message.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
         </div>
