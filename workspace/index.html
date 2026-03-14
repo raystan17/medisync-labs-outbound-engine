@@ -822,6 +822,7 @@
         <div class="nav-item active" data-section="overview">Dashboard</div>
         <div class="nav-item" data-section="pitchdeck">Pitch Deck</div>
         <div class="nav-item" data-section="investors">Firms</div>
+        <div class="nav-item" data-section="future">Future Pipeline</div>
         <div class="nav-item" data-section="contacts">Contacts</div>
         <div class="nav-item" data-section="linkedin">LinkedIn DMs</div>
         <div class="nav-item" data-section="templates">Templates</div>
@@ -837,12 +838,16 @@
 
         <div class="stats flex flex-wrap gap-3 sm:gap-4">
           <div class="stat-card flex-1 min-w-[100px] sm:min-w-[120px]">
-            <div class="value">10</div>
-            <div class="label">Firms</div>
+          <div class="value">10</div>
+          <div class="label">Active Firms</div>
           </div>
           <div class="stat-card">
             <div class="value">20</div>
             <div class="label">Key Contacts</div>
+          </div>
+          <div class="stat-card">
+            <div class="value">25</div>
+            <div class="label">Future Pipeline</div>
           </div>
           <div class="stat-card">
             <div class="value">2</div>
@@ -868,6 +873,7 @@
           <div class="flex flex-col sm:flex-row gap-3 sm:gap-2 flex-wrap">
             <a href="#pitchdeck" class="btn btn-ghost w-full sm:w-auto" onclick="showSection('pitchdeck')">Pitch deck</a>
             <a href="#investors" class="btn btn-ghost w-full sm:w-auto" onclick="showSection('investors')">Firms</a>
+            <a href="#future" class="btn btn-ghost w-full sm:w-auto" onclick="showSection('future')">Future pipeline</a>
             <a href="#contacts" class="btn btn-ghost w-full sm:w-auto" onclick="showSection('contacts')">Key contacts</a>
             <a href="#linkedin" class="btn btn-ghost w-full sm:w-auto" onclick="showSection('linkedin')">LinkedIn DMs</a>
             <a href="#templates" class="btn btn-ghost w-full sm:w-auto" onclick="showSection('templates')">Email templates</a>
@@ -901,7 +907,7 @@
       <section id="investors" class="section">
         <div class="section-header">
           <h2>Firms</h2>
-          <p>Target firms — company pages and LinkedIn</p>
+          <p>Active targets — ready to reach out</p>
         </div>
         <div class="card investors-table-wrapper overflow-x-auto">
           <table class="investors-table" id="investors-table">
@@ -915,6 +921,26 @@
           </table>
         </div>
         <div id="investors-mobile-cards"></div>
+      </section>
+
+      <section id="future" class="section">
+        <div class="section-header">
+          <h2>Future Pipeline</h2>
+          <p>25 firms to research — strong fit for MediSync Labs</p>
+        </div>
+        <div class="card investors-table-wrapper overflow-x-auto">
+          <table class="investors-table" id="future-investors-table">
+            <thead>
+              <tr>
+                <th>Firm</th>
+                <th>Focus</th>
+                <th>LinkedIn</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div id="future-investors-mobile-cards"></div>
       </section>
 
       <section id="contacts" class="section">
@@ -1019,6 +1045,34 @@
       { firm: 'HBM Healthcare Investments', linkedin: 'https://www.linkedin.com/company/hbm-partners-ag' }
     ];
 
+    const FUTURE_INVESTORS = [
+      { firm: 'Define Ventures', focus: 'Early-stage digital health, category-defining companies', linkedin: 'https://www.linkedin.com/company/definevc' },
+      { firm: 'Oak HC/FT', focus: 'Healthcare & fintech transformation, seed to growth', linkedin: 'https://www.linkedin.com/company/oak-hc-ft-partners' },
+      { firm: 'Optum Ventures', focus: 'Value-based care, enterprise health software', linkedin: 'https://www.linkedin.com/company/optumventures' },
+      { firm: 'Rock Health Capital', focus: 'Healthcare + technology intersection', linkedin: 'https://www.linkedin.com/company/rockhealth' },
+      { firm: '7wire Ventures', focus: 'Informed connected health consumer, digital health', linkedin: 'https://www.linkedin.com/company/7wire-ventures' },
+      { firm: 'Esplanade Ventures', focus: 'Canadian digital health, AI-enabled solutions', linkedin: 'https://www.linkedin.com/company/esplanade-ventures' },
+      { firm: 'Indus Ventures', focus: 'Healthcare AI, $100K–$2M checks, hands-on support', linkedin: 'https://www.linkedin.com/company/indusvp' },
+      { firm: 'WELL Health Ventures', focus: 'Canadian healthcare modernization', linkedin: 'https://www.linkedin.com/company/well-health-technologies' },
+      { firm: 'Digital Health Venture Partners', focus: 'Healthcare data, AI workflows, early-stage', linkedin: 'https://www.linkedin.com/company/digital-health-venture-partners' },
+      { firm: 'DigiTx Partners', focus: 'Digital health, personalized medicine, data analytics', linkedin: 'https://www.linkedin.com/company/digitx-partners' },
+      { firm: 'Venrock', focus: 'Healthcare & life sciences, early-stage', linkedin: 'https://www.linkedin.com/company/venrock' },
+      { firm: '.406 Ventures', focus: 'Healthcare IT, data-driven health', linkedin: 'https://www.linkedin.com/company/406-ventures' },
+      { firm: 'Polaris Partners', focus: 'Healthcare, life sciences, technology', linkedin: 'https://www.linkedin.com/company/polaris-partners' },
+      { firm: 'Forerunner Ventures', focus: 'Consumer health, DTC brands', linkedin: 'https://www.linkedin.com/company/forerunner-ventures' },
+      { firm: 'NFX', focus: 'Network effects, healthcare marketplaces', linkedin: 'https://www.linkedin.com/company/nfx' },
+      { firm: 'DCVC', focus: 'Deep tech, digital health infrastructure', linkedin: 'https://www.linkedin.com/company/dcvc' },
+      { firm: 'OMERS Ventures', focus: 'North American tech, healthcare', linkedin: 'https://www.linkedin.com/company/omers-ventures' },
+      { firm: 'Catalpa Ventures', focus: 'HealthTech, DACH & Benelux, pre-seed to Series A', linkedin: 'https://www.linkedin.com/company/catalpa-ventures' },
+      { firm: 'Qure Ventures', focus: 'Digital health, Israeli & global', linkedin: 'https://www.linkedin.com/company/qure-ventures' },
+      { firm: 'CVS Health Ventures', focus: 'Healthcare innovation, strategic partnerships', linkedin: 'https://www.linkedin.com/company/cvs-health' },
+      { firm: 'Kaiser Permanente Ventures', focus: 'Care delivery, patient engagement', linkedin: 'https://www.linkedin.com/company/kaiser-permanente-ventures' },
+      { firm: 'Healthbox', focus: 'Healthcare innovation, accelerator', linkedin: 'https://www.linkedin.com/company/healthbox' },
+      { firm: 'F-Prime Capital', focus: 'Healthcare, fintech, enterprise', linkedin: 'https://www.linkedin.com/company/f-prime-capital' },
+      { firm: 'Bessemer Venture Partners', focus: 'Healthcare IT, cloud, SaaS', linkedin: 'https://www.linkedin.com/company/bessemer-venture-partners' },
+      { firm: 'Y Combinator', focus: 'Early-stage, healthcare startups', linkedin: 'https://www.linkedin.com/company/y-combinator' }
+    ];
+
     const LINKEDIN_DMS = [
       { firm: 'Andreessen Horowitz', linkedin: 'https://www.linkedin.com/company/a16z', message: "Hey — Brock Stanley here, founder of MediSync Labs. Your firm's leadership in AI infrastructure and healthcare tech inspired me to reach out. We're an AI-powered health platform that turns blood labs into personalized insights in seconds — HIPAA-secure. 2,000+ users, real revenue, 30+ premium sign-ups in the last 30 days. Demo: https://www.medisynclabs.ca/demo-login — Raising $100k and open to a conversation if there's alignment." },
       { firm: 'General Catalyst', linkedin: 'https://www.linkedin.com/company/general-catalyst', message: "Brock Stanley here — I founded MediSync Labs. We use explainable AI to turn blood test data into actionable health insights, bridging the gap between clinical data and patient understanding. 2,000+ users, revenue, 30 premium sign-ups last month. Demo: https://www.medisynclabs.ca/demo-login — Raising $100k and open to a chat if this resonates." },
@@ -1093,6 +1147,28 @@ Founder, MediSync Labs`;
         mobileContainer.innerHTML = INVESTORS.map(i => `
           <div class="investor-mobile-card">
             <div class="font-semibold text-[var(--text)]">${i.firm}</div>
+            <a href="${i.linkedin}" target="_blank" rel="noopener" class="btn btn-primary">Open LinkedIn →</a>
+          </div>
+        `).join('');
+      }
+    }
+
+    function renderFutureInvestors() {
+      const tbody = document.querySelector('#future-investors-table tbody');
+      if (!tbody) return;
+      tbody.innerHTML = FUTURE_INVESTORS.map(i =>
+        `<tr>
+          <td>${i.firm}</td>
+          <td><span class="text-[var(--text-muted)] text-sm">${i.focus}</span></td>
+          <td><a href="${i.linkedin}" target="_blank" rel="noopener">Open LinkedIn →</a></td>
+        </tr>`
+      ).join('');
+      const mobileContainer = document.getElementById('future-investors-mobile-cards');
+      if (mobileContainer) {
+        mobileContainer.innerHTML = FUTURE_INVESTORS.map(i => `
+          <div class="investor-mobile-card">
+            <div class="font-semibold text-[var(--text)]">${i.firm}</div>
+            <div class="text-sm text-[var(--text-muted)] mt-1">${i.focus}</div>
             <a href="${i.linkedin}" target="_blank" rel="noopener" class="btn btn-primary">Open LinkedIn →</a>
           </div>
         `).join('');
@@ -1248,6 +1324,7 @@ Founder, MediSync Labs`;
           gate.classList.add('hidden');
           document.getElementById('main-content').style.display = 'flex';
           renderInvestors();
+          renderFutureInvestors();
           renderContacts();
           renderLinkedInDMs();
           renderTemplates();
@@ -1270,6 +1347,7 @@ Founder, MediSync Labs`;
 
     if (checkAuth()) {
         renderInvestors();
+        renderFutureInvestors();
       renderContacts();
       renderLinkedInDMs();
       renderTemplates();
