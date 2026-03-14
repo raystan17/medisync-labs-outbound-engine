@@ -11,6 +11,6 @@ Your code is on GitHub: [raystan17/medisync-labs-outbound-engine](https://github
 
 Your workspace will be live at `https://medisync-labs-outbound-engine.vercel.app` (or a custom domain)
 
-## Password
+## Access
 
-The workspace is protected with password: **pillow123**
+The workspace is password protected. Contact Cole or Brock for access.

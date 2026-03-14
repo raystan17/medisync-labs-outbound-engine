@@ -10,7 +10,7 @@ Open the **workspace** to view investors, LinkedIn DMs, templates, and generated
 
 **Deploy:** See [DEPLOY.md](DEPLOY.md) to push to GitHub and deploy on Vercel.
 
-**Password:** pillow123 (for you and Brock)
+**Access:** Password shared privately with Cole and Brock.
 
 ## Generate messages
 
